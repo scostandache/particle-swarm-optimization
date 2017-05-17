@@ -1,9 +1,6 @@
 from particle import Particle
 import random
-from operator import add, sub
 import numpy as np
-from mpl_toolkits.mplot3d import Axes3D
-import matplotlib.pyplot as plt
 
 
 class Swarm(object):
@@ -23,54 +20,36 @@ class Swarm(object):
 
             new_velocity = [0.0 for _ in xrange(len(particle.velocity))]
 
-            first_rand = random.random()
-            second_rand = random.random()
+            # first_rand = random.random()
+            # second_rand = random.random()
 
             for i in xrange(len(particle.velocity)):
                 part_one = innertia * particle.velocity[i]
-                part_two = cognitive * first_rand * \
+                part_two = cognitive * random.random() * \
                            (particle.best_position[i] - particle.position[i])
-                part_three = social * second_rand * \
+                part_three = social * random.random() * \
                              (self.best_overall_position[i] - particle.position[i])
                 new_velocity[i] = part_one + part_two + part_three
 
             particle.velocity = new_velocity
+
             particle.normalize_velocity(2.0)
 
             new_position = map(sum, zip(particle.position, particle.velocity))
 
-            if len(self.LIMITS) == 2:
-                first_lim = self.LIMITS[0].values()
-                second_lim = self.LIMITS[1].values()
+            particle.position = new_position
 
-                if new_position[0] < first_lim[0] or new_position[1] > first_lim[1]:
-                    new_position[0] = random.uniform(first_lim[0], first_lim[1])
-                    # print 'found'
-                if new_position[1] < second_lim[0] or new_position[1] > second_lim[1]:
-                    new_position[1] = random.uniform(second_lim[0], second_lim[1])
-
-            else:
-
-                limit = self.LIMITS[0].values()
-                # print particle.position, particle.fitness
-                for i in xrange(len(new_position)):
-                    if new_position[i] < limit[0] or new_position[i] > limit[1]:
-                        new_position[i] = random.uniform(limit[0], limit[1])
-                        # print 'updated'
-
-
-
-            if (self.fitness_func(new_position) < particle.fitness):
-                particle.best_position = new_position
-                particle.position = new_position
-                # particle.update_fitness()
+            particle.normalize_position()
 
             particle.update_fitness()
-            # print particle.position, particle.fitness, '\n'
 
-            if particle.fitness < self.best_fitness:
-                self.best_overall = particle.position
-                self.best_fitness = particle.fitness
+            if particle.fitness < particle.best_fitness:
+                particle.best_position = particle.position
+                particle.best_fitness = particle.fitness
+
+            if particle.best_fitness < self.best_fitness:
+                self.best_overall_position = particle.best_position
+                self.best_fitness = particle.best_fitness
 
     def visualize_scatter(self):
         x = np.array([particle.position[0] for particle in self.POPULATION])

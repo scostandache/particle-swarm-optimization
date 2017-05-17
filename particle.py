@@ -1,7 +1,4 @@
 import random
-import numpy
-import fitness
-from operator import add, sub
 
 class Particle(object):
     # class to respresent a particle in swarm
@@ -15,8 +12,9 @@ class Particle(object):
             self.position = [random.uniform(*LIMITS[0].values()) for _ in xrange(dim)]
 
         self.best_position = self.position
-        self.velocity = [0.01*x for x in self.position]
+        self.velocity = [0.0 for _ in self.position]
         self.fitness = round(fitness_func(self.position), precision)
+        self.best_fitness = round(fitness_func(self.position), precision)
         self.fitness_func = fitness_func
         self.precision = precision
         self.LIMITS = LIMITS
@@ -32,6 +30,26 @@ class Particle(object):
                 self.velocity[i] = lim
             if self.velocity[i] < -lim:
                 self.velocity[i] = -lim
+
+
+    def normalize_position(self):
+        if len(self.LIMITS) == 2:
+            first_lim = self.LIMITS[0].values()
+            second_lim = self.LIMITS[1].values()
+
+            if self.position[0] < first_lim[0] or self.position[1] > first_lim[1]:
+                self.position[0] = random.uniform(first_lim[0], first_lim[1])
+
+            if self.position[1] < second_lim[0] or self.position[1] > second_lim[1]:
+                self.position[1] = random.uniform(second_lim[0], second_lim[1])
+
+        else:
+
+            limit = self.LIMITS[0].values()
+
+            for i in xrange(len(self.position)):
+                if self.position[i] < limit[0] or self.position[i] > limit[1]:
+                    self.position[i] = random.uniform(limit[0], limit[1])
 
 
 
