@@ -18,7 +18,7 @@ def rosenbrock(params):
 
 
 def griewangk(params):
-    fitness = sum((parameter ** 2) / 4000.0 for parameter in params)
+    fitness = sum(((parameter ** 2) / 4000.0) for parameter in params)
     return fitness - np.prod([math.cos(parameter / math.sqrt(i + 1))
                               for i, parameter in list(enumerate(params))])
 
