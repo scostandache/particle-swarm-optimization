@@ -33,6 +33,7 @@ class PSO(object):
         z = np.array([])
         count = 0
         best_color = np.array([])
+
         def update_graph(count):
 
             x = np.array([particle.position[0] for particle in swarm.POPULATION])

@@ -18,10 +18,10 @@ class Swarm(object):
 
         for particle in self.POPULATION:
 
-            new_velocity = [0.0 for _ in xrange(len(particle.velocity))]
+            new_velocity = [0.0 for _ in particle.velocity]
 
-            # first_rand = random.random()
-            # second_rand = random.random()
+            first_rand = random.random()
+            second_rand = random.random()
 
             for i in xrange(len(particle.velocity)):
                 part_one = innertia * particle.velocity[i]
@@ -42,6 +42,7 @@ class Swarm(object):
             particle.normalize_position()
 
             particle.update_fitness()
+
 
             if particle.fitness < particle.best_fitness:
                 particle.best_position = particle.position

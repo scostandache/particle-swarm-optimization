@@ -6,7 +6,7 @@ if __name__ == "__main__":
 
     PSO = PSO()
     PSO.solve(gen_no = 10000,
-              pop_size = 250,
+              pop_size = 50,
               fitness = fitness.dispatcher['rastrigin']['function'],
               LIMITS = fitness.dispatcher['rastrigin']['LIMITS'],
               dim=2,
