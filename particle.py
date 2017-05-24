@@ -48,8 +48,15 @@ class Particle(object):
             limit = self.LIMITS[0].values()
 
             for i in xrange(len(self.position)):
-                if self.position[i] < limit[0] or self.position[i] > limit[1]:
+                if self.position[i] > limit[0] or self.position[i] < limit[1]:
+                    print 'old ',self.position[i]
                     self.position[i] = random.uniform(limit[0], limit[1])
+                    print 'new ', self.position[i]
+
+
+
+
+
 
 
 

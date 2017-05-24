@@ -5,13 +5,13 @@ if __name__ == "__main__":
 
 
     PSO = PSO()
-    PSO.solve(gen_no = 5000,
+    PSO.solve(gen_no = 1000,
               pop_size = 250,
               fitness = fitness.dispatcher['rastrigin']['function'],
               LIMITS = fitness.dispatcher['rastrigin']['LIMITS'],
               dim=30,
-              precision = 6,
-              innertia = 1.0,
-              cognitive = 2.0,
-              social = 2.0
+              precision = 9,
+              innertia = 0.7,
+              cognitive = 1.4,
+              social = 1.4
               )
