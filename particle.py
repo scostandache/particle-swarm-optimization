@@ -1,5 +1,5 @@
 import random
-
+import copy
 class Particle(object):
     # class to respresent a particle in swarm
 
@@ -11,7 +11,7 @@ class Particle(object):
         else:
             self.position = [random.uniform(*LIMITS[0].values()) for _ in xrange(dim)]
 
-        self.best_position = self.position
+        self.best_position = copy.deepcopy(self.position)
         self.velocity = [0.0 for _ in self.position]
         self.fitness = round(fitness_func(self.position), precision)
         self.best_fitness = round(fitness_func(self.position), precision)

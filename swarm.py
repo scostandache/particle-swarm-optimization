@@ -1,6 +1,7 @@
 from particle import Particle
 import random
 import numpy as np
+import copy
 
 
 class Swarm(object):
@@ -9,7 +10,7 @@ class Swarm(object):
     def __init__(self, pop_size, fitness_func, LIMITS, dim, precision):
 
         self.POPULATION = [Particle(fitness_func, LIMITS, dim, precision) for _ in xrange(pop_size)]
-        self.best_overall_position = self.POPULATION[0].position
+        self.best_overall_position = copy.deepcopy(self.POPULATION[0].position)
         self.best_fitness = self.POPULATION[0].fitness
         self.LIMITS = LIMITS
         self.fitness_func = fitness_func
@@ -18,16 +19,16 @@ class Swarm(object):
 
         for particle in self.POPULATION:
 
-            new_velocity = [0.0 for _ in particle.velocity]
+            new_velocity = [0.01*x for x in particle.velocity]
 
             first_rand = random.random()
             second_rand = random.random()
 
             for i in xrange(len(particle.velocity)):
                 part_one = innertia * particle.velocity[i]
-                part_two = cognitive * random.random() * \
+                part_two = cognitive * first_rand * \
                            (particle.best_position[i] - particle.position[i])
-                part_three = social * random.random() * \
+                part_three = social * second_rand * \
                              (self.best_overall_position[i] - particle.position[i])
                 new_velocity[i] = part_one + part_two + part_three
 
@@ -45,11 +46,11 @@ class Swarm(object):
 
 
             if particle.fitness < particle.best_fitness:
-                particle.best_position = particle.position
+                particle.best_position = copy.deepcopy(particle.position)
                 particle.best_fitness = particle.fitness
 
             if particle.best_fitness < self.best_fitness:
-                self.best_overall_position = particle.best_position
+                self.best_overall_position = copy.deepcopy(particle.best_position)
                 self.best_fitness = particle.best_fitness
 
     def visualize_scatter(self):
