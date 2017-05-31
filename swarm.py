@@ -34,7 +34,7 @@ class Swarm(object):
 
             particle.velocity = new_velocity
 
-            particle.normalize_velocity(2.0)
+            particle.normalize_velocity(1.5)
 
             new_position = map(sum, zip(particle.position, particle.velocity))
 
