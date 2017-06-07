@@ -52,11 +52,3 @@ class Particle(object):
                     print 'old ',self.position[i]
                     self.position[i] = random.uniform(limit[0], limit[1])
                     print 'new ', self.position[i]
-
-
-
-
-
-
-
-
